@@ -1,0 +1,84 @@
+Bufferbloat - PS2
+=================
+
+Instructions to reproduce the results
+-------------------------------------
+
+Prerequisites:
+  - Mininet (tested with mn 2.3+ on Linux 5.x, Python 3.8)
+  - Open vSwitch (used as the switch; no OpenFlow controller needed)
+  - iperf (v2), curl, ss, tc (iproute2)
+  - Python 3 with matplotlib:    pip3 install matplotlib
+
+Run the full experiment (both queue sizes, all three plots each):
+
+    sudo ./run.sh
+
+This produces two output directories, bb-q100 and bb-q20, each
+containing cwnd.txt, q.txt, ping.txt, fetch_stats.txt and the three
+PNG plots (cwnd-iperf.png, q.png, rtt.png).  Each run lasts ~200 s.
+
+Compatibility notes: the skeleton was ported from Python 2 to Python 3
+(http.server / socketserver, list comprehensions in place of map, etc.).
+The tcp_probe kernel module is gone from modern kernels, so cwnd is
+sampled by polling `ss -tin` for the iperf flow inside h1's namespace
+every 0.1 s (see start_cwnd_monitor in bufferbloat.py); plot_tcpprobe.py
+reads that CSV.  The switch is an OVSBridge (standalone learning
+bridge) so no OpenFlow controller is required.
+
+
+Answers
+------------------------
+
+1. Why do you see a difference in webpage fetch times with short and
+   large router buffers?
+
+   The long-lived iperf flow uses TCP Reno, which only backs off when a
+   packet is dropped, and the tail-drop queue only drops when it is
+   full.  So Reno grows cwnd until the bottleneck buffer is full and
+   keeps it full on average.  A curl GET sent into that full buffer
+   sits behind every queued byte and has to wait for them to drain at
+   1.5 Mb/s before its own bytes leave the router.  A larger buffer
+   means more bytes queued in front of the curl request, which means a
+   larger added queueing delay on every SYN, request, and response
+   packet of the fetch.  With Q=100 packets (~150 KB) the worst-case
+   queueing delay is ~800 ms per traversal; with Q=20 (~30 KB) it is
+   ~160 ms.  Fetch time scales accordingly.
+
+2. NIC transmit queue length and drain time.
+
+   `ip link show` on this VM reports `qlen 1000` for the primary NIC.  
+   With full 1500-byte ethernet frames the queue can hold
+
+       1000 * 1500 B = 1,500,000 B = 12,000,000 bits.
+
+   Draining at 100 Mb/s = 10^8 bit/s, the maximum time a packet can
+   wait in this queue before leaving the NIC is
+
+       12 * 10^6 / 10^8 = 0.12 s = 120 ms.
+
+3. How does the RTT reported by ping vary with the queue size?
+
+   When the bottleneck buffer is saturated by the bulk flow, a ping
+   reply has to wait behind every packet already queued.  Let
+
+       RTT_prop = minimum (propagation + transmission) RTT (~20 ms)
+       Q = bottleneck queue size, in packets
+       MTU = packet size in bits (~1500 B = 12000 bits)
+       B = bottleneck bandwidth (1.5 Mb/s)
+
+   Then the maximum RTT seen by ping is
+
+       RTT_max  =  RTT_prop  +  Q * MTU / B
+
+4. Two ways to mitigate bufferbloat.
+
+   (a) Size buffers to the bandwidth-delay product instead of "as big
+       as possible".  A buffer only needs ~1 BDP to keep a single TCP
+       flow at full throughput; anything larger just adds latency.
+
+   (b) Use an active queue management in place of plain tail-drop.  These drop
+       or ECN-mark packets based on how long they have been sitting in
+       the queue, so loss-based TCPs back off before the queue fills,
+       holding queueing delay to a few milliseconds regardless of the
+       physical buffer size.
