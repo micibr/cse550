@@ -1,0 +1,14 @@
+default: machine_learning
+build_dir: /opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build
+domains:
+  - name: machine_learning
+    build_dir: /opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/machine_learning
+  - name: mcuboot
+    build_dir: /opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/mcuboot
+  - name: ipc_radio
+    build_dir: /opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/ipc_radio
+  - name: b0n
+    build_dir: /opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/b0n
+flash_order:
+  - ipc_radio
+  - machine_learning

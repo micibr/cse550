@@ -1,0 +1,13 @@
+# Target labels
+ ipc_radio
+# Source files and their labels
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/CMakeFiles/ipc_radio
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/CMakeFiles/ipc_radio.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/CMakeFiles/ipc_radio-complete.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/ipc_radio-prefix/src/ipc_radio-stamp/ipc_radio-build.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/ipc_radio-prefix/src/ipc_radio-stamp/ipc_radio-configure.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/ipc_radio-prefix/src/ipc_radio-stamp/ipc_radio-download.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/ipc_radio-prefix/src/ipc_radio-stamp/ipc_radio-install.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/ipc_radio-prefix/src/ipc_radio-stamp/ipc_radio-mkdir.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/ipc_radio-prefix/src/ipc_radio-stamp/ipc_radio-patch.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/ipc_radio-prefix/src/ipc_radio-stamp/ipc_radio-update.rule

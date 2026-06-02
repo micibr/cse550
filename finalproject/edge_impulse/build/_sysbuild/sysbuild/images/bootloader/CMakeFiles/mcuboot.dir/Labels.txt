@@ -1,0 +1,13 @@
+# Target labels
+ mcuboot
+# Source files and their labels
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/CMakeFiles/mcuboot
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/CMakeFiles/mcuboot.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/CMakeFiles/mcuboot-complete.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-build.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-configure.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-download.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-install.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-mkdir.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-patch.rule
+/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-update.rule

@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/CMakeFiles/mcuboot"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/CMakeFiles/mcuboot.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/CMakeFiles/mcuboot-complete.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-build.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-configure.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-download.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-install.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-mkdir.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-patch.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/sysbuild/images/bootloader/mcuboot-prefix/src/mcuboot-stamp/mcuboot-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"mcuboot"
+		],
+		"name" : "mcuboot"
+	}
+}

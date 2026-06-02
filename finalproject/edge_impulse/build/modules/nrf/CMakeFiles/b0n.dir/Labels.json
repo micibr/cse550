@@ -1,0 +1,43 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/CMakeFiles/b0n"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/CMakeFiles/b0n.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/CMakeFiles/b0n-complete.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-build.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-configure.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-download.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-install.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-mkdir.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-patch.rule"
+		},
+		{
+			"file" : "/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/modules/nrf/b0n-prefix/src/b0n-stamp/b0n-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"b0n"
+		],
+		"name" : "b0n"
+	}
+}
