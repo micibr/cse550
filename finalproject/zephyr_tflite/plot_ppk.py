@@ -41,18 +41,24 @@ def load_ppk2_csv(path: Path) -> pd.DataFrame:
 # Plotting
 # ---------------------------------------------------------------------------
 
-def plot_full_trace(df, mean_ua, out_path: Path):
+def plot_full_trace(df, out_path: Path):
+    i_ua = df["i_ua"].values
     t_s = df["t_ms"].values / 1000.0
-    i_ma = df["i_ua"].values / 1000.0
+    i_ma = i_ua / 1000.0
+
+    sleep_ua = float(np.median(i_ua[i_ua < 3000.0]))
+    active_ua = float(np.median(i_ua[i_ua >= 3000.0]))
 
     fig, ax = plt.subplots(figsize=(14, 4))
     ax.plot(t_s, i_ma, color="#444", linewidth=0.6, alpha=0.8)
-    ax.axhline(mean_ua / 1000, color="orange", linestyle="--",
-               linewidth=1.2, label=f"mean = {mean_ua:.0f} µA")
+    ax.axhline(sleep_ua / 1000, color="#2ca02c", linestyle="--",
+               linewidth=1.2, label=f"sleep = {sleep_ua:.0f} µA")
+    ax.axhline(active_ua / 1000, color="#d62728", linestyle="--",
+               linewidth=1.2, label=f"active = {active_ua:.0f} µA")
 
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Current (mA)")
-    ax.set_title("Full current trace — zephyr_tflite (continuous inference, no BLE)",
+    ax.set_title("Full current trace",
                  fontsize=12, fontweight="bold")
     ax.legend(fontsize=9)
     ax.grid(True, alpha=0.3)
@@ -181,7 +187,7 @@ def print_summary(df, mean_ua, vdd_v):
 def main():
     parser = argparse.ArgumentParser(description="PPK2 trace analyzer (zephyr_tflite)")
     parser.add_argument("csv", nargs="?",
-                        default="logs/ppk-20260608T000110.csv", type=Path)
+                        default="logs/low_power.csv", type=Path)
     parser.add_argument("--vdd", type=float, default=3.0,
                         help="Supply voltage in volts (default 3.0)")
     parser.add_argument("--rolling-window", type=int, default=200,
@@ -200,7 +206,7 @@ def main():
     plots_dir.mkdir(exist_ok=True)
     stem = args.csv.stem
 
-    plot_full_trace(df, mean_ua, plots_dir / f"{stem}_trace.png")
+    plot_full_trace(df, plots_dir / f"{stem}_trace.png")
     plot_rolling_stats(df, args.rolling_window, plots_dir / f"{stem}_rolling.png")
     plot_current_dist(df, mean_ua, plots_dir / f"{stem}_current_dist.png")
     plot_power_spectrum(df, plots_dir / f"{stem}_power_spectrum.png")
