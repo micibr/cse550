@@ -56,6 +56,18 @@ static const char *handled_sensor_event_descr = CONFIG_ML_APP_ML_RUNNER_SENSOR_E
 static uint8_t ml_control;
 static enum state state;
 
+static void delayed_start_handler(struct k_work *work);
+static K_WORK_DELAYABLE_DEFINE(delayed_start_work, delayed_start_handler);
+
+static void delayed_start_handler(struct k_work *work)
+{
+	k_sched_lock();
+	if (state == STATE_ACTIVE) {
+		start_prediction();
+	}
+	k_sched_unlock();
+}
+
 
 static void report_error(void)
 {
@@ -159,7 +171,8 @@ static void result_ready_cb(int err)
 		ml_control &= ~ML_RUNNING;
 
 		if (state == STATE_ACTIVE) {
-			start_prediction();
+			k_work_schedule(&delayed_start_work,
+					K_MSEC(CONFIG_ML_APP_ML_RUNNER_SLEEP_MS));
 		}
 	}
 
@@ -251,6 +264,7 @@ static bool handle_ml_app_mode_event(const struct ml_app_mode_event *event)
 		start_prediction();
 		state = STATE_ACTIVE;
 	} else if ((event->mode != ML_APP_MODE_MODEL_RUNNING) && (state == STATE_ACTIVE)) {
+		k_work_cancel_delayable(&delayed_start_work);
 		int err = buf_cleanup();
 
 		if (!err || (err == -EBUSY)) {

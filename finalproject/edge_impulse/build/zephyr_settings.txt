@@ -6,8 +6,14 @@
 # and/or the west manifest file.
 #
 # See the Modules guide for more information.
-"BOARD_ROOT":"/opt/nordic/ncs/v3.0.2/nrf"
-"DTS_ROOT":"/opt/nordic/ncs/v3.0.2/nrf"
-"SNIPPET_ROOT":"/opt/nordic/ncs/v3.0.2/nrf"
-"SOC_ROOT":"/opt/nordic/ncs/v3.0.2/nrf"
-"MODULE_EXT_ROOT":"/opt/nordic/ncs/v3.0.2/nrf"
+"DTS_ROOT":"/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/modules/hal/adi"
+"DTS_ROOT":"/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/modules/hal/ambiq"
+"DTS_ROOT":"/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/modules/hal/atmel"
+"DTS_ROOT":"/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/modules/hal/bouffalolab"
+"DTS_ROOT":"/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/modules/hal/espressif"
+"DTS_ROOT":"/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/modules/hal/gigadevice"
+"DTS_ROOT":"/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/modules/hal/microchip"
+"DTS_ROOT":"/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/modules/hal/nuvoton"
+"DTS_ROOT":"/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/modules/hal/nxp"
+"DTS_ROOT":"/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/modules/hal/stm32"
+"DTS_ROOT":"/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/modules/hal/ti"

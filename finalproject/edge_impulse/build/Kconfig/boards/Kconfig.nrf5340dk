@@ -1,2 +1,2 @@
 # Load board Kconfig descriptions.
-osource "/opt/nordic/ncs/v3.0.2/zephyr/boards/nordic/nrf5340dk/Kconfig.nrf5340dk"
+osource "/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/zephyr/boards/nordic/nrf5340dk/Kconfig.nrf5340dk"

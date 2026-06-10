@@ -1,5 +1,0 @@
-/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/machine_learning/edge_impulse/src/edge_impulse_project-build/CMakeFiles/rebuild_cache.dir
-/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/machine_learning/edge_impulse/src/edge_impulse_project-build/CMakeFiles/edit_cache.dir
-/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/machine_learning/edge_impulse/src/edge_impulse_project-build/CMakeFiles/app.dir
-/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/machine_learning/edge_impulse/src/edge_impulse_project-build/edge-impulse-sdk/cmake/zephyr/CMakeFiles/rebuild_cache.dir
-/opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/machine_learning/edge_impulse/src/edge_impulse_project-build/edge-impulse-sdk/cmake/zephyr/CMakeFiles/edit_cache.dir

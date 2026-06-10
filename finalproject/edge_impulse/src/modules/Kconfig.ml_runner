@@ -33,6 +33,14 @@ config ML_APP_ML_RUNNER_FRAME_SHIFT
 	help
 	  Number of frames the prediction window is shifted between predictions.
 
+config ML_APP_ML_RUNNER_SLEEP_MS
+	int "Sleep between inferences (ms)"
+	default 500
+	help
+	  Milliseconds to wait between consecutive inference cycles. During this
+	  period the CPU is idle and Zephyr's power manager can gate it into a
+	  low-power state (requires CONFIG_PM=y).
+
 module = ML_APP_ML_RUNNER
 module-str = machine learning model runner
 source "subsys/logging/Kconfig.template.log_config"

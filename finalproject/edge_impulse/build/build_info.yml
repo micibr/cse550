@@ -1,32 +1,5 @@
-cmake:
-  application:
-    source-dir: /opt/nordic/ncs/v3.0.2/zephyr/share/sysbuild
-  board:
-    name: nrf5340dk
-    path:
-     - /opt/nordic/ncs/v3.0.2/zephyr/boards/nordic/nrf5340dk
-    qualifiers: nrf5340/cpuapp
-    revision: 
-  images:
-   - name: machine_learning
-     source-dir: /opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning
-     type: MAIN
-   - name: mcuboot
-     source-dir: /opt/nordic/ncs/v3.0.2/bootloader/mcuboot/boot/zephyr/
-     type: BOOTLOADER
-   - name: ipc_radio
-     source-dir: 
-   - name: b0n
-     source-dir: 
-  kconfig:
-    files:
-     - /opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/empty.conf
-     - /opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/empty.conf
-    user-files:
-     - /opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build/_sysbuild/empty.conf
-  sysbuild: true
-version: 0.1.0
 west:
-  command: /opt/nordic/ncs/toolchains/ef4fc6722e/bin/west build --build-dir /opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning/build /opt/nordic/ncs/v3.0.2/nrf/applications/machine_learning --pristine --board nrf5340dk/nrf5340/cpuapp -- -DCONFIG_DEBUG_THREAD_INFO=y
-  topdir: /opt/nordic/ncs/v3.0.2
-  version: 1.2.0
+  command: /Users/michaelibrahim/radioconda/bin/west build -p always -b nrf5340dk/nrf5340/cpuapp
+    .
+  topdir: /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse
+  version: 1.5.0

@@ -1,3 +1,0 @@
-repository='external project URL'
-module='https://developer.nordicsemi.com/nRF_Connect_SDK/EdgeImpulse/nrf_accel_sim-v35.zip;https://developer.nordicsemi.com/nRF_Connect_SDK/EdgeImpulse/nrf_accel_sim-v35.zip https://publicburan.blob.core.windows.net/nrf-connect-sdk-edgeimpulse/nrf_accel_sim-v35.zip'
-tag=''

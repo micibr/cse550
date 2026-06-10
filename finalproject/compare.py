@@ -19,14 +19,19 @@ import numpy as np
 import pandas as pd
 
 HERE = Path(__file__).parent
-EI_PPK    = HERE / "edge_impulse/logs/ppk-20260530T045430.csv"
-EI_EVENTS = HERE / "edge_impulse/logs/ppk-20260530T045430_events.csv"
-EI_LOG    = HERE / "edge_impulse/logs/1050030941 (RTT).log"
-ZT_PPK    = HERE / "zephyr_tflite/logs/ppk-20260608T000110.csv"
-ZT_LOG    = HERE / "zephyr_tflite/logs/serial-terminal-07062026_161522.txt"
+EI_PPK       = HERE / "edge_impulse/logs/ppk-20260530T045430.csv"
+EI_EVENTS    = HERE / "edge_impulse/logs/ppk-20260530T045430_events.csv"
+EI_LOG       = HERE / "edge_impulse/logs/1050030941 (RTT).log"
+ZT_PPK_LOW   = HERE / "zephyr_tflite/logs/low_power.csv"
+ZT_PPK_HIGH  = HERE / "zephyr_tflite/logs/ppk-20260608T000110.csv"
+ZT_LOG       = HERE / "zephyr_tflite/logs/serial-terminal-07062026_161522.txt"
 
-COLORS = {"ei": "#1f77b4", "zt": "#d62728"}
-LABELS = {"ei": "Edge Impulse", "zt": "Zephyr TFLite"}
+KEYS   = ["ei", "zt_low", "zt_high"]
+COLORS = {"ei": "#1f77b4", "zt_low": "#d62728", "zt_high": "#ff7f0e"}
+LABELS = {"ei": "Edge Impulse",
+          "zt_low": "Zephyr TFLite (low power)",
+          "zt_high": "Zephyr TFLite (high power)"}
+SHORT  = {"ei": "EI", "zt_low": "ZT low", "zt_high": "ZT high"}
 
 
 # ---------------------------------------------------------------------------
@@ -95,10 +100,11 @@ def load_ei_log(path: Path):
 # Plot 1: Side-by-side current traces
 # ---------------------------------------------------------------------------
 
-def plot_traces(ei_ppk, zt_ppk, out_path: Path):
-    fig, axes = plt.subplots(2, 1, figsize=(14, 6), sharex=False)
+def plot_traces(ppks, out_path: Path):
+    fig, axes = plt.subplots(len(KEYS), 1, figsize=(14, 8), sharex=False)
 
-    for ax, df, key in zip(axes, [ei_ppk, zt_ppk], ["ei", "zt"]):
+    for ax, key in zip(axes, KEYS):
+        df = ppks[key]
         t_s = (df["t_ms"].values - df["t_ms"].values[0]) / 1000.0
         i_ma = df["i_ua"].values / 1000.0
         mean_ma = i_ma.mean()
@@ -113,7 +119,7 @@ def plot_traces(ei_ppk, zt_ppk, out_path: Path):
         ax.set_xlim(0, t_s[-1])
 
     axes[-1].set_xlabel("Time since capture start (s)")
-    fig.suptitle("Current traces: Edge Impulse vs Zephyr TFLite",
+    fig.suptitle("Current traces: Edge Impulse vs Zephyr TFLite (low / high power)",
                  fontsize=13, fontweight="bold", y=1.01)
     fig.tight_layout()
     fig.savefig(out_path, dpi=140, bbox_inches="tight")
@@ -125,12 +131,12 @@ def plot_traces(ei_ppk, zt_ppk, out_path: Path):
 # Plot 2: Current distribution overlay
 # ---------------------------------------------------------------------------
 
-def plot_current_dist_overlay(ei_ppk, zt_ppk, out_path: Path):
+def plot_current_dist_overlay(ppks, out_path: Path):
     fig, ax = plt.subplots(figsize=(9, 4))
 
-    for df, key in [(ei_ppk, "ei"), (zt_ppk, "zt")]:
-        i_ua = df["i_ua"].values
-        ax.hist(i_ua, bins=80, color=COLORS[key], alpha=0.55,
+    for key in KEYS:
+        i_ua = ppks[key]["i_ua"].values
+        ax.hist(i_ua, bins=80, color=COLORS[key], alpha=0.5,
                 edgecolor="none", label=f"{LABELS[key]}  (mean {i_ua.mean():.0f} µA)",
                 density=True)
 
@@ -149,10 +155,10 @@ def plot_current_dist_overlay(ei_ppk, zt_ppk, out_path: Path):
 # Plot 3: Power metrics bar chart
 # ---------------------------------------------------------------------------
 
-def plot_power_metrics(ei_ppk, zt_ppk, vdd_v: float, out_path: Path):
+def plot_power_metrics(ppks, vdd_v: float, out_path: Path):
     metrics = {}
-    for df, key in [(ei_ppk, "ei"), (zt_ppk, "zt")]:
-        i = df["i_ua"].values
+    for key in KEYS:
+        i = ppks[key]["i_ua"].values
         metrics[key] = {
             "baseline": float(np.median(i[i <= np.percentile(i, 30)])),
             "mean": float(i.mean()),
@@ -161,27 +167,28 @@ def plot_power_metrics(ei_ppk, zt_ppk, vdd_v: float, out_path: Path):
 
     categories = ["Baseline", "Mean", "Peak"]
     x = np.arange(len(categories))
-    width = 0.35
+    n = len(KEYS)
+    width = 0.8 / n
+    offsets = [(j - (n - 1) / 2) * width for j in range(n)]
 
-    fig, ax = plt.subplots(figsize=(8, 5))
-    for i, (key, offset) in enumerate(zip(["ei", "zt"], [-width/2, width/2])):
+    fig, ax = plt.subplots(figsize=(10, 5))
+    peak_max = max(metrics[k]["peak"] * vdd_v / 1000 for k in KEYS)
+    for key, offset in zip(KEYS, offsets):
         vals = [metrics[key]["baseline"] * vdd_v / 1000,
                 metrics[key]["mean"] * vdd_v / 1000,
                 metrics[key]["peak"] * vdd_v / 1000]
         bars = ax.bar(x + offset, vals, width, label=LABELS[key],
-                      color=COLORS[key], alpha=0.8, edgecolor="black")
+                      color=COLORS[key], alpha=0.85, edgecolor="black")
         for bar, v in zip(bars, vals):
             ax.text(bar.get_x() + bar.get_width() / 2,
-                    bar.get_height() + max(v for vv in [
-                        [metrics[k]["peak"]*vdd_v/1000 for k in ["ei","zt"]]
-                    ] for v in vv) * 0.02,
+                    bar.get_height() + peak_max * 0.02,
                     f"{v:.1f}", ha="center", va="bottom", fontsize=8, fontweight="bold")
 
     ax.set_xticks(x)
     ax.set_xticklabels(categories)
     ax.set_ylabel("Power (mW)")
     ax.set_title(f"Power comparison at Vdd = {vdd_v} V", fontweight="bold")
-    ax.legend(fontsize=10)
+    ax.legend(fontsize=9)
     ax.grid(True, alpha=0.3, axis="y")
     fig.tight_layout()
     fig.savefig(out_path, dpi=140, bbox_inches="tight")
@@ -193,22 +200,23 @@ def plot_power_metrics(ei_ppk, zt_ppk, vdd_v: float, out_path: Path):
 # Plot 4: Battery life comparison
 # ---------------------------------------------------------------------------
 
-def plot_battery_life(ei_ppk, zt_ppk, out_path: Path):
+def plot_battery_life(ppks, out_path: Path):
     batteries = [("CR2032\n(225 mAh)", 225),
                  ("AAA\n(1200 mAh)", 1200),
                  ("AA\n(2500 mAh)", 2500)]
 
-    ei_mean = ei_ppk["i_ua"].mean()
-    zt_mean = zt_ppk["i_ua"].mean()
+    means = {k: ppks[k]["i_ua"].mean() for k in KEYS}
 
     x = np.arange(len(batteries))
-    width = 0.35
-    fig, ax = plt.subplots(figsize=(9, 5))
+    n = len(KEYS)
+    width = 0.8 / n
+    offsets = [(j - (n - 1) / 2) * width for j in range(n)]
+    fig, ax = plt.subplots(figsize=(10, 5))
 
-    for mean_ua, key, offset in [(ei_mean, "ei", -width/2), (zt_mean, "zt", width/2)]:
-        vals = [cap * 1000 / mean_ua / 24 for _, cap in batteries]  # days
+    for key, offset in zip(KEYS, offsets):
+        vals = [cap * 1000 / means[key] / 24 for _, cap in batteries]  # days
         bars = ax.bar(x + offset, vals, width, label=LABELS[key],
-                      color=COLORS[key], alpha=0.8, edgecolor="black")
+                      color=COLORS[key], alpha=0.85, edgecolor="black")
         for bar, v in zip(bars, vals):
             ax.text(bar.get_x() + bar.get_width() / 2,
                     bar.get_height() * 1.02,
@@ -218,7 +226,7 @@ def plot_battery_life(ei_ppk, zt_ppk, out_path: Path):
     ax.set_xticklabels([label for label, _ in batteries])
     ax.set_ylabel("Estimated battery life (days)")
     ax.set_title("Battery life projections at current duty cycle", fontweight="bold")
-    ax.legend(fontsize=10)
+    ax.legend(fontsize=9)
     ax.grid(True, alpha=0.3, axis="y")
     fig.tight_layout()
     fig.savefig(out_path, dpi=140, bbox_inches="tight")
@@ -230,51 +238,61 @@ def plot_battery_life(ei_ppk, zt_ppk, out_path: Path):
 # Plot 5: Inference performance comparison
 # ---------------------------------------------------------------------------
 
-def plot_inference_perf(ei_events, ei_log, zt_rows, zt_ppk, vdd_v: float, out_path: Path):
+def plot_inference_perf(ei_events, ei_log, zt_rows, ppks, vdd_v: float, out_path: Path):
     inf = ei_events[ei_events["type"] == "inference"]
     ei_duration_s = (inf["t_start_ms"].max() - inf["t_start_ms"].min()) / 1000.0
-    ei_rate = len(inf) / ei_duration_s
-    ei_avg_dur_ms = inf["duration_ms"].mean()
-    ei_energy_uj = inf["energy_marginal_uj"].mean()
+    rates    = {"ei": len(inf) / ei_duration_s}
+    avg_durs = {"ei": inf["duration_ms"].mean()}
+    energies = {"ei": inf["energy_marginal_uj"].mean()}
 
-    zt_duration_s = (zt_ppk["t_ms"].iloc[-1] - zt_ppk["t_ms"].iloc[0]) / 1000.0
     zt_n = len([r for r in zt_rows if r["x"] != 0.0])
-    zt_rate = zt_n / zt_duration_s
-    zt_avg_dur_ms = zt_duration_s * 1000 / zt_n
-    zt_mean_ua = zt_ppk["i_ua"].mean()
-    zt_energy_uj = zt_mean_ua * (zt_avg_dur_ms / 1000) * vdd_v  # total (no idle state)
+    for key in ("zt_low", "zt_high"):
+        df = ppks[key]
+        dur_s = (df["t_ms"].iloc[-1] - df["t_ms"].iloc[0]) / 1000.0
+        avg_dur_ms = dur_s * 1000 / zt_n
+        mean_ua = df["i_ua"].mean()
+        rates[key]    = zt_n / dur_s
+        avg_durs[key] = avg_dur_ms
+        energies[key] = mean_ua * (avg_dur_ms / 1000) * vdd_v  # total (no idle state)
 
-    fig, axes = plt.subplots(1, 3, figsize=(13, 4))
+    fig, axes = plt.subplots(1, 3, figsize=(15, 4.5))
+    x = np.arange(len(KEYS))
+    xticks_short = [SHORT[k] for k in KEYS]
+    bar_colors = [COLORS[k] for k in KEYS]
 
     # Inference rate
     ax = axes[0]
-    bars = ax.bar(["EI", "ZT"], [ei_rate, zt_rate],
-                  color=[COLORS["ei"], COLORS["zt"]], alpha=0.8, edgecolor="black", width=0.5)
-    for bar, v in zip(bars, [ei_rate, zt_rate]):
+    vals = [rates[k] for k in KEYS]
+    bars = ax.bar(x, vals, color=bar_colors, alpha=0.85, edgecolor="black", width=0.6)
+    for bar, v in zip(bars, vals):
         ax.text(bar.get_x() + bar.get_width()/2, bar.get_height()*1.02,
                 f"{v:.1f}/s", ha="center", fontsize=10, fontweight="bold")
+    ax.set_xticks(x); ax.set_xticklabels(xticks_short)
     ax.set_ylabel("Inferences / second")
     ax.set_title("Inference rate", fontweight="bold")
     ax.grid(True, alpha=0.3, axis="y")
 
     # Average inference duration
     ax = axes[1]
-    bars = ax.bar(["EI", "ZT"], [ei_avg_dur_ms, zt_avg_dur_ms],
-                  color=[COLORS["ei"], COLORS["zt"]], alpha=0.8, edgecolor="black", width=0.5)
-    for bar, v in zip(bars, [ei_avg_dur_ms, zt_avg_dur_ms]):
+    vals = [avg_durs[k] for k in KEYS]
+    bars = ax.bar(x, vals, color=bar_colors, alpha=0.85, edgecolor="black", width=0.6)
+    for bar, v in zip(bars, vals):
         ax.text(bar.get_x() + bar.get_width()/2, bar.get_height()*1.02,
                 f"{v:.1f} ms", ha="center", fontsize=10, fontweight="bold")
+    ax.set_xticks(x); ax.set_xticklabels(xticks_short)
     ax.set_ylabel("Duration (ms)")
     ax.set_title("Avg time per inference", fontweight="bold")
     ax.grid(True, alpha=0.3, axis="y")
 
     # Energy per inference
     ax = axes[2]
-    bars = ax.bar(["EI\n(marginal)", "ZT\n(total*)"], [ei_energy_uj, zt_energy_uj],
-                  color=[COLORS["ei"], COLORS["zt"]], alpha=0.8, edgecolor="black", width=0.5)
-    for bar, v in zip(bars, [ei_energy_uj, zt_energy_uj]):
+    vals = [energies[k] for k in KEYS]
+    labels = ["EI\n(marginal)", "ZT low\n(total*)", "ZT high\n(total*)"]
+    bars = ax.bar(x, vals, color=bar_colors, alpha=0.85, edgecolor="black", width=0.6)
+    for bar, v in zip(bars, vals):
         ax.text(bar.get_x() + bar.get_width()/2, bar.get_height()*1.02,
                 f"{v:.1f} µJ", ha="center", fontsize=10, fontweight="bold")
+    ax.set_xticks(x); ax.set_xticklabels(labels)
     ax.set_ylabel("Energy per inference (µJ)")
     ax.set_title("Energy per inference", fontweight="bold")
     ax.annotate("* ZT has no idle state;\n  total energy is shown",
@@ -282,7 +300,7 @@ def plot_inference_perf(ei_events, ei_log, zt_rows, zt_ppk, vdd_v: float, out_pa
                 ha="right", fontsize=7, color="gray")
     ax.grid(True, alpha=0.3, axis="y")
 
-    fig.suptitle("Inference performance: Edge Impulse vs Zephyr TFLite",
+    fig.suptitle("Inference performance: Edge Impulse vs Zephyr TFLite (low / high power)",
                  fontsize=12, fontweight="bold")
     fig.tight_layout()
     fig.savefig(out_path, dpi=140, bbox_inches="tight")
@@ -321,14 +339,14 @@ def plot_inference_accuracy(ei_log, zt_rows, out_path: Path):
     ax = axes[1]
     active = [r for r in zt_rows if r["x"] != 0.0]
     errs = np.abs([r["err"] for r in active])
-    ax.hist(errs, bins=20, color=COLORS["zt"], alpha=0.75, edgecolor="black",
+    ax.hist(errs, bins=20, color=COLORS["zt_low"], alpha=0.75, edgecolor="black",
             density=True)
     ax.axvline(errs.mean(), color="black", linestyle="--", linewidth=1.5,
                label=f"MAE = {errs.mean():.4f}")
     ax.set_xlabel("|prediction error|  (pred − true)")
     ax.set_ylabel("Density")
     ax.set_title("Zephyr TFLite\nAbsolute error distribution (sine regression)",
-                 fontsize=10, fontweight="bold", color=COLORS["zt"])
+                 fontsize=10, fontweight="bold", color=COLORS["zt_low"])
     ax.legend(fontsize=9)
     ax.grid(True, alpha=0.3)
 
@@ -345,41 +363,65 @@ def plot_inference_accuracy(ei_log, zt_rows, out_path: Path):
 # Summary printout
 # ---------------------------------------------------------------------------
 
-def print_comparison(ei_ppk, zt_ppk, ei_events, zt_rows, vdd_v):
-    ei_i = ei_ppk["i_ua"].values
-    zt_i = zt_ppk["i_ua"].values
+def print_comparison(ppks, ei_events, zt_rows, vdd_v):
+    ei_i      = ppks["ei"]["i_ua"].values
+    zt_lo_i   = ppks["zt_low"]["i_ua"].values
+    zt_hi_i   = ppks["zt_high"]["i_ua"].values
     ei_baseline = float(np.median(ei_i[ei_i <= np.percentile(ei_i, 30)]))
     inf = ei_events[ei_events["type"] == "inference"]
     ble = ei_events[ei_events["type"] == "ble"]
-    ei_dur = (inf["t_start_ms"].max() - inf["t_start_ms"].min()) / 1000.0
-    zt_dur = (zt_ppk["t_ms"].iloc[-1] - zt_ppk["t_ms"].iloc[0]) / 1000.0
+    ei_dur    = (inf["t_start_ms"].max() - inf["t_start_ms"].min()) / 1000.0
+    zt_lo_dur = (ppks["zt_low"]["t_ms"].iloc[-1]  - ppks["zt_low"]["t_ms"].iloc[0])  / 1000.0
+    zt_hi_dur = (ppks["zt_high"]["t_ms"].iloc[-1] - ppks["zt_high"]["t_ms"].iloc[0]) / 1000.0
     zt_active = [r for r in zt_rows if r["x"] != 0.0]
-    zt_errs = np.abs([r["err"] for r in zt_active])
+    zt_errs   = np.abs([r["err"] for r in zt_active])
 
-    print("=" * 68)
-    print(f"{'METRIC':<34} {'EDGE IMPULSE':>15} {'ZEPHYR TFLITE':>15}")
-    print("=" * 68)
-    print(f"{'Capture duration (s)':<34} {ei_dur:>15.2f} {zt_dur:>15.3f}")
-    print(f"{'Baseline current (µA)':<34} {ei_baseline:>15.1f} {'N/A (no idle)':>15}")
-    print(f"{'Mean current (µA)':<34} {ei_i.mean():>15.1f} {zt_i.mean():>15.1f}")
-    print(f"{'Peak current (µA)':<34} {ei_i.max():>15.1f} {zt_i.max():>15.1f}")
-    print(f"{'Avg power (mW)':<34} {ei_i.mean()*vdd_v/1e3:>15.2f} {zt_i.mean()*vdd_v/1e3:>15.2f}")
-    print(f"{'Inference events':<34} {len(inf):>15} {len(zt_active):>15}")
-    print(f"{'BLE radio bursts':<34} {len(ble):>15} {'0 (no BLE)':>15}")
-    print(f"{'Inference rate (inf/s)':<34} {len(inf)/ei_dur:>15.1f} {len(zt_active)/zt_dur:>15.1f}")
-    print(f"{'Avg inference duration (ms)':<34} {inf['duration_ms'].mean():>15.1f} {zt_dur*1000/len(zt_active):>15.1f}")
-    zt_energy = zt_i.mean() * (zt_dur / len(zt_active)) * vdd_v
-    print(f"{'Energy/inference — EI marginal (µJ)':<34} {inf['energy_marginal_uj'].mean():>15.2f} {'':>15}")
-    print(f"{'Energy/inference — total (µJ)':<34} {'':>15} {zt_energy:>15.2f}")
-    print(f"{'MAE (regression)':<34} {'N/A':>15} {zt_errs.mean():>15.4f}")
-    print(f"{'RMSE (regression)':<34} {'N/A':>15} {np.sqrt(np.mean(np.array([r['err'] for r in zt_active])**2)):>15.4f}")
-    print("-" * 68)
+    w = 30
+    col = 14
+    sep = "=" * (w + 3 * (col + 1))
+    dash = "-" * (w + 3 * (col + 1))
+    print(sep)
+    print(f"{'METRIC':<{w}} {'EDGE IMPULSE':>{col}} {'ZT LOW POWER':>{col}} {'ZT HIGH POWER':>{col}}")
+    print(sep)
+    print(f"{'Capture duration (s)':<{w}} {ei_dur:>{col}.2f} {zt_lo_dur:>{col}.3f} {zt_hi_dur:>{col}.3f}")
+    print(f"{'Baseline current (µA)':<{w}} {ei_baseline:>{col}.1f} {'N/A':>{col}} {'N/A':>{col}}")
+    print(f"{'Mean current (µA)':<{w}} {ei_i.mean():>{col}.1f} {zt_lo_i.mean():>{col}.1f} {zt_hi_i.mean():>{col}.1f}")
+    print(f"{'Peak current (µA)':<{w}} {ei_i.max():>{col}.1f} {zt_lo_i.max():>{col}.1f} {zt_hi_i.max():>{col}.1f}")
+    print(f"{'Avg power (mW)':<{w}} "
+          f"{ei_i.mean()*vdd_v/1e3:>{col}.2f} "
+          f"{zt_lo_i.mean()*vdd_v/1e3:>{col}.2f} "
+          f"{zt_hi_i.mean()*vdd_v/1e3:>{col}.2f}")
+    print(f"{'Inference events':<{w}} {len(inf):>{col}} {len(zt_active):>{col}} {len(zt_active):>{col}}")
+    print(f"{'BLE radio bursts':<{w}} {len(ble):>{col}} {'0 (no BLE)':>{col}} {'0 (no BLE)':>{col}}")
+    print(f"{'Inference rate (inf/s)':<{w}} "
+          f"{len(inf)/ei_dur:>{col}.1f} "
+          f"{len(zt_active)/zt_lo_dur:>{col}.1f} "
+          f"{len(zt_active)/zt_hi_dur:>{col}.1f}")
+    print(f"{'Avg inference duration (ms)':<{w}} "
+          f"{inf['duration_ms'].mean():>{col}.1f} "
+          f"{zt_lo_dur*1000/len(zt_active):>{col}.1f} "
+          f"{zt_hi_dur*1000/len(zt_active):>{col}.1f}")
+    zt_lo_energy = zt_lo_i.mean() * (zt_lo_dur / len(zt_active)) * vdd_v
+    zt_hi_energy = zt_hi_i.mean() * (zt_hi_dur / len(zt_active)) * vdd_v
+    print(f"{'Energy/inference — marginal (µJ)':<{w}} "
+          f"{inf['energy_marginal_uj'].mean():>{col}.2f} {'':>{col}} {'':>{col}}")
+    print(f"{'Energy/inference — total (µJ)':<{w}} "
+          f"{'':>{col}} {zt_lo_energy:>{col}.2f} {zt_hi_energy:>{col}.2f}")
+    print(f"{'MAE (regression)':<{w}} {'N/A':>{col}} "
+          f"{zt_errs.mean():>{col}.4f} {zt_errs.mean():>{col}.4f}")
+    print(f"{'RMSE (regression)':<{w}} {'N/A':>{col}} "
+          f"{np.sqrt(np.mean(np.array([r['err'] for r in zt_active])**2)):>{col}.4f} "
+          f"{np.sqrt(np.mean(np.array([r['err'] for r in zt_active])**2)):>{col}.4f}")
+    print(dash)
     print("Battery life at mean current draw:")
-    for cell, mAh in [("  CR2032 (225 mAh)", 225), ("  AAA (1200 mAh)", 1200), ("  AA (2500 mAh)", 2500)]:
-        ei_days = mAh * 1000 / ei_i.mean() / 24
-        zt_days = mAh * 1000 / zt_i.mean() / 24
-        print(f"  {cell:<30} {ei_days:>12.1f} d {zt_days:>12.1f} d")
-    print("=" * 68)
+    for cell, mAh in [("  CR2032 (225 mAh)", 225),
+                      ("  AAA (1200 mAh)", 1200),
+                      ("  AA (2500 mAh)", 2500)]:
+        ei_d = mAh * 1000 / ei_i.mean() / 24
+        lo_d = mAh * 1000 / zt_lo_i.mean() / 24
+        hi_d = mAh * 1000 / zt_hi_i.mean() / 24
+        print(f"  {cell:<28} {ei_d:>{col-2}.1f} d {lo_d:>{col-2}.1f} d {hi_d:>{col-2}.1f} d")
+    print(sep)
 
 
 # ---------------------------------------------------------------------------
@@ -391,26 +433,29 @@ def main():
     parser.add_argument("--vdd", type=float, default=3.0)
     args = parser.parse_args()
 
-    for p in [EI_PPK, EI_EVENTS, ZT_PPK, ZT_LOG]:
+    for p in [EI_PPK, EI_EVENTS, ZT_PPK_LOW, ZT_PPK_HIGH, ZT_LOG]:
         if not p.exists():
             raise SystemExit(f"Required file not found: {p}")
 
-    ei_ppk    = load_ppk(EI_PPK)
-    zt_ppk    = load_ppk(ZT_PPK)
+    ppks = {
+        "ei":      load_ppk(EI_PPK),
+        "zt_low":  load_ppk(ZT_PPK_LOW),
+        "zt_high": load_ppk(ZT_PPK_HIGH),
+    }
     ei_events = load_ei_events(EI_EVENTS)
     zt_rows   = load_zt_rows(ZT_LOG)
     ei_log    = load_ei_log(EI_LOG) if EI_LOG.exists() else []
 
-    print_comparison(ei_ppk, zt_ppk, ei_events, zt_rows, args.vdd)
+    print_comparison(ppks, ei_events, zt_rows, args.vdd)
 
     out = HERE / "plots"
     out.mkdir(exist_ok=True)
 
-    plot_traces(ei_ppk, zt_ppk, out / "comparison_traces.png")
-    plot_current_dist_overlay(ei_ppk, zt_ppk, out / "comparison_current_dist.png")
-    plot_power_metrics(ei_ppk, zt_ppk, args.vdd, out / "comparison_power_metrics.png")
-    plot_battery_life(ei_ppk, zt_ppk, out / "comparison_battery_life.png")
-    plot_inference_perf(ei_events, ei_log, zt_rows, zt_ppk, args.vdd,
+    plot_traces(ppks, out / "comparison_traces.png")
+    plot_current_dist_overlay(ppks, out / "comparison_current_dist.png")
+    plot_power_metrics(ppks, args.vdd, out / "comparison_power_metrics.png")
+    plot_battery_life(ppks, out / "comparison_battery_life.png")
+    plot_inference_perf(ei_events, ei_log, zt_rows, ppks, args.vdd,
                         out / "comparison_inference_perf.png")
     plot_inference_accuracy(ei_log, zt_rows, out / "comparison_accuracy.png")
 

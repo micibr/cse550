@@ -1,0 +1,311 @@
+-- west build: generating a build system
+Loading Zephyr default modules (Zephyr base).
+-- Application: /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse
+-- CMake version: 4.3.2
+-- Found Python3: /Users/michaelibrahim/radioconda/bin/python3 (found suitable version "3.12.9", minimum required is "3.12") found components: Interpreter
+-- Cache files will be written to: /Users/michaelibrahim/Library/Caches/zephyr
+-- Zephyr version: 4.4.99 (/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/zephyr)
+-- Found west (found suitable version "1.5.0", minimum required is "0.14.0")
+-- Board: nrf5340dk, qualifiers: nrf5340/cpuapp
+-- ZEPHYR_TOOLCHAIN_VARIANT not set, trying to locate Zephyr SDK
+-- Found host-tools: zephyr 1.0.1 (/Users/michaelibrahim/zephyr-sdk-1.0.1)
+-- Found toolchain: zephyr 1.0.1 (/Users/michaelibrahim/zephyr-sdk-1.0.1)
+-- Could NOT find Dtc (missing: DTC) (Required is at least version "1.4.6")
+Hint: The project() command has not yet been called.  It sets up system-specific search paths.
+-- Found BOARD.dts: /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/zephyr/boards/nordic/nrf5340dk/nrf5340dk_nrf5340_cpuapp.dts
+-- Found devicetree overlay: /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/app.overlay
+-- Generated zephyr.dts: /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/build/zephyr/zephyr.dts
+-- Generated pickled edt: /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/build/zephyr/edt.pickle
+-- Generated devicetree_generated.h: /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/build/zephyr/include/generated/zephyr/devicetree_generated.h
+
+warning: ML_APP_INIT_LOG_ML_RESULT_EVENTS (defined at
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/src/events/Kconfig:21) was
+assigned the value 'y' but got the value 'n'. Check these unsatisfied dependencies:
+ML_APP_ML_RESULT_EVENTS (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_INIT_LOG_ML_RESULT_EVENTS and/or
+look up ML_APP_INIT_LOG_ML_RESULT_EVENTS in the menuconfig/guiconfig interface. The Application
+Development Primer, Setting Configuration Values, and Kconfig - Tips and Best Practices sections of
+the manual might be helpful too.
+
+
+warning: ML_APP_EI_DATA_FORWARDER (defined at /Users/michaelibrahim/Documents/cse/550/cse550/finalpr
+oject/edge_impulse/src/modules/Kconfig.ei_data_forwarder:7) was assigned the value 'y' but got the
+value 'n'. Check these unsatisfied dependencies: NEWLIB_LIBC (=n), NEWLIB_LIBC_FLOAT_PRINTF (=n),
+CAF_SENSOR_EVENTS (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_EI_DATA_FORWARDER and/or look up
+ML_APP_EI_DATA_FORWARDER in the menuconfig/guiconfig interface. The Application Development Primer,
+Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual might be
+helpful too.
+
+
+warning: ML_APP_LED_STATE (defined at /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/ed
+ge_impulse/src/modules/Kconfig.led_state:7) was assigned the value 'y' but got the value 'n'. Check
+these unsatisfied dependencies: CAF_LED_EVENTS (=n), ML_APP_MODE_EVENTS (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_LED_STATE and/or look up
+ML_APP_LED_STATE in the menuconfig/guiconfig interface. The Application Development Primer, Setting
+Configuration Values, and Kconfig - Tips and Best Practices sections of the manual might be helpful
+too.
+
+
+warning: ML_APP_LED_STATE_ANOMALY_THRESH (defined at /Users/michaelibrahim/Documents/cse/550/cse550/
+finalproject/edge_impulse/src/modules/Kconfig.led_state:14) was assigned the value '500' but got the
+value ''. Check these unsatisfied dependencies: ML_APP_LED_STATE (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_LED_STATE_ANOMALY_THRESH and/or look
+up ML_APP_LED_STATE_ANOMALY_THRESH in the menuconfig/guiconfig interface. The Application
+Development Primer, Setting Configuration Values, and Kconfig - Tips and Best Practices sections of
+the manual might be helpful too.
+
+
+warning: ML_APP_LED_STATE_VALUE_THRESH (defined at /Users/michaelibrahim/Documents/cse/550/cse550/fi
+nalproject/edge_impulse/src/modules/Kconfig.led_state:22) was assigned the value '900' but got the
+value ''. Check these unsatisfied dependencies: ML_APP_LED_STATE (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_LED_STATE_VALUE_THRESH and/or look
+up ML_APP_LED_STATE_VALUE_THRESH in the menuconfig/guiconfig interface. The Application Development
+Primer, Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual
+might be helpful too.
+
+
+warning: ML_APP_MODE (defined at /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_im
+pulse/src/modules/Kconfig.ml_app_mode:7) was assigned the value 'y' but got the value 'n'. Check
+these unsatisfied dependencies: (ML_APP_ML_RUNNER || ML_APP_EI_DATA_FORWARDER) (=n),
+CAF_CLICK_EVENTS (=n). See http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_MODE
+and/or look up ML_APP_MODE in the menuconfig/guiconfig interface. The Application Development
+Primer, Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual
+might be helpful too.
+
+
+warning: ML_APP_MODE_CONTROL_BUTTON_ID (defined at /Users/michaelibrahim/Documents/cse/550/cse550/fi
+nalproject/edge_impulse/src/modules/Kconfig.ml_app_mode:15) was assigned the value '0x0000' but got
+the value ''. Check these unsatisfied dependencies: ML_APP_ML_RUNNER (=n), ML_APP_EI_DATA_FORWARDER
+(=n), ML_APP_MODE (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_MODE_CONTROL_BUTTON_ID and/or look
+up ML_APP_MODE_CONTROL_BUTTON_ID in the menuconfig/guiconfig interface. The Application Development
+Primer, Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual
+might be helpful too.
+
+
+warning: ML_APP_ML_RUNNER (defined at /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/ed
+ge_impulse/src/modules/Kconfig.ml_runner:7) was assigned the value 'y' but got the value 'n'. Check
+these unsatisfied dependencies: EI_WRAPPER (=n), CAF_SENSOR_EVENTS (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_ML_RUNNER and/or look up
+ML_APP_ML_RUNNER in the menuconfig/guiconfig interface. The Application Development Primer, Setting
+Configuration Values, and Kconfig - Tips and Best Practices sections of the manual might be helpful
+too.
+
+
+warning: ML_APP_ML_RUNNER_WINDOW_SHIFT (defined at /Users/michaelibrahim/Documents/cse/550/cse550/fi
+nalproject/edge_impulse/src/modules/Kconfig.ml_runner:22) was assigned the value '1' but got the
+value ''. Check these unsatisfied dependencies: ML_APP_ML_RUNNER (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_ML_RUNNER_WINDOW_SHIFT and/or look
+up ML_APP_ML_RUNNER_WINDOW_SHIFT in the menuconfig/guiconfig interface. The Application Development
+Primer, Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual
+might be helpful too.
+
+
+warning: ML_APP_ML_RUNNER_FRAME_SHIFT (defined at /Users/michaelibrahim/Documents/cse/550/cse550/fin
+alproject/edge_impulse/src/modules/Kconfig.ml_runner:29) was assigned the value '0' but got the
+value ''. Check these unsatisfied dependencies: ML_APP_ML_RUNNER (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_ML_RUNNER_FRAME_SHIFT and/or look up
+ML_APP_ML_RUNNER_FRAME_SHIFT in the menuconfig/guiconfig interface. The Application Development
+Primer, Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual
+might be helpful too.
+
+
+warning: ML_APP_ML_RUNNER_SLEEP_MS (defined at /Users/michaelibrahim/Documents/cse/550/cse550/finalp
+roject/edge_impulse/src/modules/Kconfig.ml_runner:36) was assigned the value '500' but got the value
+''. Check these unsatisfied dependencies: ML_APP_ML_RUNNER (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_ML_RUNNER_SLEEP_MS and/or look up
+ML_APP_ML_RUNNER_SLEEP_MS in the menuconfig/guiconfig interface. The Application Development Primer,
+Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual might be
+helpful too.
+
+
+warning: ML_APP_SENSOR_SIM_CTRL_TRIG_BUTTON_ID (defined at /Users/michaelibrahim/Documents/cse/550/c
+se550/finalproject/edge_impulse/src/modules/Kconfig.sensor_sim_ctrl:33) was assigned the value
+'0x0002' but got the value ''. Check these unsatisfied dependencies:
+ML_APP_SENSOR_SIM_CTRL_TRIG_BUTTON (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_SENSOR_SIM_CTRL_TRIG_BUTTON_ID
+and/or look up ML_APP_SENSOR_SIM_CTRL_TRIG_BUTTON_ID in the menuconfig/guiconfig interface. The
+Application Development Primer, Setting Configuration Values, and Kconfig - Tips and Best Practices
+sections of the manual might be helpful too.
+
+
+warning: PM (defined at soc/silabs/silabs_s2/xg21/Kconfig.defconfig:10,
+soc/silabs/silabs_s2/xg23/Kconfig.defconfig:10, soc/silabs/silabs_s2/xg24/Kconfig.defconfig:11,
+soc/silabs/silabs_s2/xg26/Kconfig.defconfig:10, soc/silabs/silabs_s2/xg29/Kconfig.defconfig:10,
+soc/renesas/smartbond/da1469x/Kconfig.defconfig:36,
+soc/realtek/ec/rts5912/Kconfig.defconfig.rts5912:10,
+soc/nordic/nrf54h/Kconfig.defconfig.nrf54h20_cpurad:11,
+soc/infineon/cat1b/cyw20829/Kconfig.defconfig:32, subsys/pm/Kconfig:21) was assigned the value 'y'
+but got the value 'n'. Check these unsatisfied dependencies: (SOC_SILABS_XG21 || SOC_SILABS_XG23 ||
+SOC_SILABS_XG24 || SOC_SILABS_XG26 || SOC_SILABS_XG29 || (SOC_SERIES_DA1469X &&
+SOC_FAMILY_RENESAS_SMARTBOND) || (REALTEK_RTS5912_RTMR && SOC_RTS5912 && SOC_SERIES_RTS5912 &&
+SOC_FAMILY_REALTEK_EC) || (SOC_NRF54H20_CPURAD && SOC_SERIES_NRF54H && SOC_FAMILY_NORDIC_NRF) ||
+(SOC_SERIES_CYW20829 && SOC_FAMILY_INFINEON_CAT1B) || (SYS_CLOCK_EXISTS && HAS_PM)) (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_PM and/or look up PM in the
+menuconfig/guiconfig interface. The Application Development Primer, Setting Configuration Values,
+and Kconfig - Tips and Best Practices sections of the manual might be helpful too.
+
+
+warning: NEWLIB_LIBC_FLOAT_PRINTF (defined at lib/libc/newlib/Kconfig:48) was assigned the value 'y'
+but got the value 'n'. Check these unsatisfied dependencies: NEWLIB_LIBC (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_NEWLIB_LIBC_FLOAT_PRINTF and/or look up
+NEWLIB_LIBC_FLOAT_PRINTF in the menuconfig/guiconfig interface. The Application Development Primer,
+Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual might be
+helpful too.
+
+
+warning: IMG_MANAGER (defined at subsys/dfu/Kconfig:10) was assigned the value 'y' but got the value
+'n'. Check these unsatisfied dependencies: STREAM_FLASH (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_IMG_MANAGER and/or look up IMG_MANAGER in
+the menuconfig/guiconfig interface. The Application Development Primer, Setting Configuration
+Values, and Kconfig - Tips and Best Practices sections of the manual might be helpful too.
+
+
+warning: IMG_ERASE_PROGRESSIVELY (defined at subsys/dfu/Kconfig:70) was assigned the value 'y' but
+got the value 'n'. Check these unsatisfied dependencies: MCUBOOT_IMG_MANAGER (=n), IMG_MANAGER (=n).
+See http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_IMG_ERASE_PROGRESSIVELY and/or look up
+IMG_ERASE_PROGRESSIVELY in the menuconfig/guiconfig interface. The Application Development Primer,
+Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual might be
+helpful too.
+
+
+warning: UPDATEABLE_IMAGE_NUMBER (defined at subsys/dfu/Kconfig:109) was assigned the value '2' but
+got the value ''. Check these unsatisfied dependencies: IMG_MANAGER (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_UPDATEABLE_IMAGE_NUMBER and/or look up
+UPDATEABLE_IMAGE_NUMBER in the menuconfig/guiconfig interface. The Application Development Primer,
+Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual might be
+helpful too.
+
+
+warning: MCUMGR_MGMT_NOTIFICATION_HOOKS (defined at subsys/mgmt/mcumgr/mgmt/Kconfig:12) was assigned
+the value 'y' but got the value 'n'. Check these unsatisfied dependencies: MCUMGR (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_MCUMGR_MGMT_NOTIFICATION_HOOKS and/or look
+up MCUMGR_MGMT_NOTIFICATION_HOOKS in the menuconfig/guiconfig interface. The Application Development
+Primer, Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual
+might be helpful too.
+
+
+warning: MCUMGR_GRP_IMG_UPLOAD_CHECK_HOOK (defined at subsys/mgmt/mcumgr/grp/img_mgmt/Kconfig:148)
+was assigned the value 'y' but got the value 'n'. Check these unsatisfied dependencies:
+MCUMGR_MGMT_NOTIFICATION_HOOKS (=n), MCUMGR_GRP_IMG (=n), MCUMGR (=n). See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_MCUMGR_GRP_IMG_UPLOAD_CHECK_HOOK and/or
+look up MCUMGR_GRP_IMG_UPLOAD_CHECK_HOOK in the menuconfig/guiconfig interface. The Application
+Development Primer, Setting Configuration Values, and Kconfig - Tips and Best Practices sections of
+the manual might be helpful too.
+
+
+warning: The choice symbol ML_APP_EI_DATA_FORWARDER_UART (defined at /Users/michaelibrahim/Documents
+/cse/550/cse550/finalproject/edge_impulse/src/modules/Kconfig.ei_data_forwarder:19) was selected
+(set =y), but no symbol ended up as the choice selection. See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_EI_DATA_FORWARDER_UART and/or look
+up ML_APP_EI_DATA_FORWARDER_UART in the menuconfig/guiconfig interface. The Application Development
+Primer, Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual
+might be helpful too.
+
+
+warning: The choice symbol ML_APP_SENSOR_SIM_CTRL_TRIG_BUTTON (defined at /Users/michaelibrahim/Docu
+ments/cse/550/cse550/finalproject/edge_impulse/src/modules/Kconfig.sensor_sim_ctrl:20) was selected
+(set =y), but ML_APP_SENSOR_SIM_CTRL_TRIG_TIMEOUT (defined at /Users/michaelibrahim/Documents/cse/55
+0/cse550/finalproject/edge_impulse/src/modules/Kconfig.sensor_sim_ctrl:17) ended up as the choice
+selection. See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_ML_APP_SENSOR_SIM_CTRL_TRIG_BUTTON and/or
+look up ML_APP_SENSOR_SIM_CTRL_TRIG_BUTTON in the menuconfig/guiconfig interface. The Application
+Development Primer, Setting Configuration Values, and Kconfig - Tips and Best Practices sections of
+the manual might be helpful too.
+
+
+warning: The choice symbol NEWLIB_LIBC (defined at lib/libc/Kconfig:116) was selected (set =y), but
+PICOLIBC (defined at lib/libc/Kconfig:100) ended up as the choice selection. See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_NEWLIB_LIBC and/or look up NEWLIB_LIBC in
+the menuconfig/guiconfig interface. The Application Development Primer, Setting Configuration
+Values, and Kconfig - Tips and Best Practices sections of the manual might be helpful too.
+
+
+warning: The choice symbol MCUBOOT_IMG_MANAGER (defined at subsys/dfu/Kconfig:26) was selected (set
+=y), but no symbol ended up as the choice selection. See
+http://docs.zephyrproject.org/latest/kconfig.html#CONFIG_MCUBOOT_IMG_MANAGER and/or look up
+MCUBOOT_IMG_MANAGER in the menuconfig/guiconfig interface. The Application Development Primer,
+Setting Configuration Values, and Kconfig - Tips and Best Practices sections of the manual might be
+helpful too.
+
+
+warning: Deprecated symbol BT_SIGNING is enabled.
+
+
+warning: BT_ADV_PROV_FLAGS (defined at /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/src/util/Kconfig:11) defined without a type
+
+warning: BT_ADV_PROV_DEVICE_NAME (defined at /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/src/util/Kconfig:14) defined without a type
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:30: warning: attempt to assign the value 'y' to the undefined symbol CAF
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:32: warning: attempt to assign the value 'y' to the undefined symbol CAF_POWER_MANAGER
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:38: warning: attempt to assign the value 'n' to the undefined symbol CAF_INIT_LOG_SENSOR_EVENTS
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:40: warning: attempt to assign the value 'y' to the undefined symbol CAF_SENSOR_MANAGER
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:42: warning: attempt to assign the value 'y' to the undefined symbol CAF_BUTTONS
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:43: warning: attempt to assign the value 'y' to the undefined symbol CAF_BUTTONS_POLARITY_INVERSED
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:45: warning: attempt to assign the value 'y' to the undefined symbol CAF_CLICK_DETECTOR
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:47: warning: attempt to assign the value 'y' to the undefined symbol CAF_BLE_STATE
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:48: warning: attempt to assign the value 'n' to the undefined symbol CAF_BLE_USE_LLPM
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:50: warning: attempt to assign the value 'y' to the undefined symbol CAF_BLE_ADV
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:51: warning: attempt to assign the value 'y' to the undefined symbol CAF_BLE_ADV_FAST_ADV
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:53: warning: attempt to assign the value 'y' to the undefined symbol CAF_BLE_BOND
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:54: warning: attempt to assign the value 'y' to the undefined symbol CAF_BLE_BOND_PEER_ERASE_CLICK
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:55: warning: attempt to assign the value '0x0000' to the undefined symbol CAF_BLE_BOND_PEER_ERASE_CLICK_KEY_ID
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:56: warning: attempt to assign the value 'y' to the undefined symbol CAF_BLE_BOND_PEER_ERASE_CLICK_DOUBLE
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:57: warning: attempt to assign the value '3000' to the undefined symbol CAF_BLE_BOND_PEER_ERASE_CLICK_TIMEOUT
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:59: warning: attempt to assign the value 'y' to the undefined symbol CAF_BLE_SMP
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:60: warning: attempt to assign the value 'n' to the undefined symbol CAF_INIT_LOG_BLE_SMP_TRANSFER_EVENTS
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:62: warning: attempt to assign the value 'y' to the undefined symbol CAF_LEDS
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:63: warning: attempt to assign the value 'y' to the undefined symbol CAF_LEDS_PWM
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:65: warning: attempt to assign the value 'y' to the undefined symbol CAF_SETTINGS_LOADER
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:75: warning: attempt to assign the value 'y' to the undefined symbol EDGE_IMPULSE
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:76: warning: attempt to assign the value '"https://developer.nordicsemi.com/nRF_Connect_SDK/EdgeImpulse/nrf_accel_sim-v35.zip; https://publicburan.blob.core.windows.net/nrf-connect-sdk-edgeimpulse/nrf_accel_sim-v35.zip"' to the undefined symbol EDGE_IMPULSE_URI
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:77: warning: attempt to assign the value 'y' to the undefined symbol EI_WRAPPER
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:97: warning: attempt to assign the value 'y' to the undefined symbol APP_EVENT_MANAGER
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:143: warning: attempt to assign the value 'n' to the undefined symbol RESET_ON_FATAL_ERROR
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:158: warning: attempt to assign the value 'y' to the undefined symbol NRF53_UPGRADE_NETWORK_CORE
+
+/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf:164: warning: attempt to assign the value 'y' to the undefined symbol NCS_SAMPLE_MCUMGR_BT_OTA_DFU
+Parsing /Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/Kconfig
+Loaded configuration '/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/zephyr/boards/nordic/nrf5340dk/nrf5340dk_nrf5340_cpuapp_defconfig'
+Merged configuration '/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/configuration/nrf5340dk_nrf5340_cpuapp/prj.conf'
+
+error: Aborting due to Kconfig warnings
+
+CMake Error at zephyr/cmake/modules/kconfig.cmake:427 (message):
+  command failed with return code: 1
+Call Stack (most recent call first):
+  zephyr/cmake/modules/zephyr_default.cmake:128 (include)
+  zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:66 (include)
+  zephyr/share/zephyr-package/cmake/ZephyrConfig.cmake:92 (include_boilerplate)
+  CMakeLists.txt:14 (find_package)
+
+
+-- Configuring incomplete, errors occurred!
+FATAL ERROR: command exited with status 1: /usr/local/bin/cmake -DWEST_PYTHON=/Users/michaelibrahim/radioconda/bin/python3 -DWEST_TOPDIR=/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse -DWEST_VERSION=1.5.0 -B/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse/build -GNinja -DBOARD=nrf5340dk/nrf5340/cpuapp -S/Users/michaelibrahim/Documents/cse/550/cse550/finalproject/edge_impulse

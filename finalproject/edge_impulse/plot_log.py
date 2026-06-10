@@ -214,7 +214,7 @@ def print_summary(ml_events, system_events):
 # ---------------------------------------------------------------------------
 
 def main():
-    log_path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("device.log")
+    log_path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent / "logs/1050030941 (RTT).log"
     if not log_path.exists():
         raise SystemExit(f"Log file not found: {log_path}")
 
